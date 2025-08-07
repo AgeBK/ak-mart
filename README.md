@@ -1,36 +1,25 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+## Original Backup
 
-## Getting Started
+with all the kmart files for the image downloads, this version seems to work
 
-First, run the development server:
+# creates
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- individual product file (formatted from kmart bloat version)
+- combines into all mens product file
+- creates a sub cats file (to keep track of the files that have been written, I may use this for other purposes as well. Writing files seems to trigger a reload so I use this file to do a check for the file name \*(I can't use state, writing files is server side only))
+- there's a product blurb file as well which I'm hard coding for each sub category
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- currently renders the individual product file, images, price, if the product is clearance and blurb
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## V1
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- got rid of excess .json files (mens/womens ect I'm not using for now)
+- downloaded/formatted all mens clothing (there are double ups)
 
-## Learn More
+## V2
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- got all mens data
+- Removed double ups out of allMens.json (still some in individual files)
+- Need to redownload images :(
+- page ORG = non kmart image version
+- Foot wear accessories contains womens levels??

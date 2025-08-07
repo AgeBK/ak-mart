@@ -12,6 +12,7 @@
 
 # testing
 /coverage
+/app/data
 
 # next.js
 /.next/
@@ -19,6 +20,9 @@
 
 # production
 /build
+
+# public (while deving)
+/public
 
 # misc
 .DS_Store
