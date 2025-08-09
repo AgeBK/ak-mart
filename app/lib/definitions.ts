@@ -35,6 +35,10 @@ export interface ItemsProps {
   group: string;
 }
 
+export type SurveyCreatorProps = {
+  promise: Promise<ItemsProps[] | undefined>;
+};
+
 export interface ProductData {
   id: string;
   url: string;

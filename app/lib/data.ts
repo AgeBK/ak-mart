@@ -3,7 +3,7 @@ import { ItemsProps } from "./definitions";
 import { unstable_noStore as noStore } from "next/cache";
 import { camelise, cameliseArr } from "./utils";
 
-export async function fetchItems() {
+export async function fetchItems(): Promise<ItemsProps[] | undefined> {
   // noStore() prevents the response from being cached. (good for dev) TODO
   noStore();
 

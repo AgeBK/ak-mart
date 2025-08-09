@@ -50,7 +50,7 @@ const camelise = (product: ItemsProps) => {
       return str[1].toUpperCase();
     });
     acc = { ...acc, [key]: value };
-    return acc;
+    return acc as ItemsProps;
   }, {});
   return camelCased;
 };
