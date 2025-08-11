@@ -23,7 +23,9 @@ export async function fetchItems(): Promise<ItemsProps[] | undefined> {
   }
 }
 
-export async function fetchItemById(query: number) {
+export async function fetchItemById(
+  query: number
+): Promise<ItemsProps[] | undefined> {
   noStore();
 
   try {
@@ -38,6 +40,112 @@ export async function fetchItemById(query: number) {
   } catch (err) {
     console.error("Database Error:", err);
     throw new Error("Failed to fetch item by id.");
+  }
+}
+
+export async function fetchItemsByLevel1(
+  query: string
+): Promise<ItemsProps[] | undefined> {
+  noStore();
+
+  try {
+    const data = await sql<ItemsProps>`
+      SELECT *    
+      FROM items
+      WHERE level1 = ${query}
+      `;
+
+    const items = data.rows;
+    items.reverse();
+    // return cameliseArr(items);
+    return items ? cameliseArr(items) : undefined; // convert db column names to camel case (eg: price_normal to priceNormal)
+  } catch (err) {
+    console.error("Database Error:", err);
+    throw new Error("Failed to fetch item by level.");
+  }
+}
+
+export async function fetchItemsByLevel2(
+  query: string
+): Promise<ItemsProps[] | undefined> {
+  noStore();
+
+  try {
+    const data = await sql<ItemsProps>`
+      SELECT *    
+      FROM items
+      WHERE level2 = ${query}
+      `;
+
+    const items = data.rows;
+    items.reverse();
+    // return cameliseArr(items);
+    return items ? cameliseArr(items) : undefined; // convert db column names to camel case (eg: price_normal to priceNormal)
+  } catch (err) {
+    console.error("Database Error:", err);
+    throw new Error("Failed to fetch item by level.");
+  }
+}
+
+export async function fetchItemsByLevel3(
+  query: string
+): Promise<ItemsProps[] | undefined> {
+  noStore();
+
+  try {
+    const data = await sql<ItemsProps>`
+      SELECT *    
+      FROM items
+      WHERE level3 = ${query}
+      `;
+
+    const items = data.rows;
+    items.reverse();
+    // return cameliseArr(items);
+    return items ? cameliseArr(items) : undefined; // convert db column names to camel case (eg: price_normal to priceNormal)
+  } catch (err) {
+    console.error("Database Error:", err);
+    throw new Error("Failed to fetch item by level.");
+  }
+}
+
+export async function fetchItemsByLevel4(
+  query: string
+): Promise<ItemsProps[] | undefined> {
+  noStore();
+
+  try {
+    const data = await sql<ItemsProps>`
+      SELECT *    
+      FROM items
+      WHERE level4 = ${query}
+      `;
+
+    const items = data.rows;
+    items.reverse();
+    // return cameliseArr(items);
+    return items ? cameliseArr(items) : undefined; // convert db column names to camel case (eg: price_normal to priceNormal)
+  } catch (err) {
+    console.error("Database Error:", err);
+    throw new Error("Failed to fetch item by level.");
+  }
+}
+
+export async function fetchNavLevels(): Promise<ItemsProps[] | undefined> {
+  noStore();
+
+  try {
+    const data = await sql<ItemsProps>`
+      SELECT level1, level2, level3, level4
+      from items
+      `;
+
+    const items = data.rows;
+    // return cameliseArr(items);
+    return items || undefined; // convert db column names to camel case (eg: price_normal to priceNormal)
+  } catch (err) {
+    console.error("Database Error:", err);
+    throw new Error("Failed to fetch item by level.");
   }
 }
 

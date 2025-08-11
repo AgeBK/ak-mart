@@ -6,6 +6,15 @@ export interface KeyNumberProps {
   [key: string]: number;
 }
 
+export type CategoryParamsProps = {
+  params: {
+    urlLevel1: string;
+    urlLevel2?: string;
+    urlLevel3?: string;
+    urlLevel4?: string;
+  };
+};
+
 export interface ItemsProps {
   colourOther: string[];
   colourOther2: string[];
