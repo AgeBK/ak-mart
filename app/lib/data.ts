@@ -1,5 +1,5 @@
 import { sql } from "@vercel/postgres";
-import { ItemsProps } from "./definitions";
+import { ItemsProps, NavDataProps } from "./definitions";
 import { unstable_noStore as noStore } from "next/cache";
 import { camelise, cameliseArr } from "./utils";
 
@@ -131,11 +131,11 @@ export async function fetchItemsByLevel4(
   }
 }
 
-export async function fetchNavLevels(): Promise<ItemsProps[] | undefined> {
+export async function fetchNavLevels(): Promise<NavDataProps[] | undefined> {
   noStore();
 
   try {
-    const data = await sql<ItemsProps>`
+    const data = await sql<NavDataProps>`
       SELECT level1, level2, level3, level4
       from items
       `;

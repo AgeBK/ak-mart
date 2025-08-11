@@ -18,15 +18,11 @@ export default async function Page({
       //   capitalizeFirstLetter(query)
       // );
 
-      const promise = fetchNavLevels();
-      const prom = fetchItemsByLevel4(
-        capitalizeFirstLetter(deHyphenate(urlLevel4))
-      );
+      const promise = fetchItemsByLevel4(capitalizeFirstLetter(query));
 
       return (
         <Suspense fallback={<Loading />}>
-          {/* <h1>urlLevel4</h1> */}
-          <Category promise={promise} prom={prom} />
+          <Category promise={promise} />
         </Suspense>
       );
     }

@@ -6,14 +6,9 @@ import { SurveyCreatorProps } from "../lib/definitions";
 import { hyphenate } from "../lib/utils";
 import styles from "@/app/css/Category.module.css";
 
-export default function Category({ promise, prom }: SurveyCreatorProps) {
+export default function Category({ promise }: SurveyCreatorProps) {
   const data = use(promise);
-  const data2 = use(prom);
   console.log(data);
-  console.log(data2);
-
-  //         o[level1] = { group: level1, link: hyphenate(level1.toLowerCase()) };
-
   const o: Record<string, any> = {};
 
   data?.forEach(
@@ -90,7 +85,6 @@ export default function Category({ promise, prom }: SurveyCreatorProps) {
               typeof val[key] === "string" &&
               Object.values(val).length > 1 && (
                 <Link href={hyphenate(val[key].toLowerCase())}>{key}::</Link>
-                
               )}
             {typeof val === "object" && Object.values(val).length > 1
               ? recursive(val, i)
@@ -110,11 +104,13 @@ export default function Category({ promise, prom }: SurveyCreatorProps) {
   const elem = recursive(o);
 
   return (
-    <div className={styles.navBar}>
-      <div>nav bar</div>
+    <div className={styles.container}>
+      <h1>Category</h1>
+
+      {/* <div>nav bar</div>
       <img src="/img/navObj.png" alt="nav object" />
 
-      <nav> {elem}</nav>
+      <nav> {elem}</nav> */}
     </div>
   );
 }

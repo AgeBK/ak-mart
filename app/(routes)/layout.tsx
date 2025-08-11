@@ -1,5 +1,5 @@
-// import Container from '../ui/container/container';
+import Container from "../ui/container/container";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
-  return <div>{children}</div>;
+  return <Container>{children}</Container>;
 }

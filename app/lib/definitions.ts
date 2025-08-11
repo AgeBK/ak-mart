@@ -15,6 +15,21 @@ export type CategoryParamsProps = {
   };
 };
 
+export interface NavDataProps {
+  level1?: string;
+  level2?: string;
+  level3?: string;
+  level4?: string;
+}
+
+export type NavPromiseProps = {
+  promise: Promise<NavDataProps[] | undefined>;
+};
+
+export type NavLevel = {
+  [key: string]: string | NavLevel;
+};
+
 export interface ItemsProps {
   colourOther: string[];
   colourOther2: string[];
