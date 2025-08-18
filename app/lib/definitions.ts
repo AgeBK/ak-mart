@@ -12,6 +12,7 @@ export type CategoryParamsProps = {
     urlLevel2?: string;
     urlLevel3?: string;
     urlLevel4?: string;
+    urlId: string;
   };
 };
 
@@ -50,8 +51,8 @@ export interface ItemsProps {
   level4: string;
   levels: string[];
   parent: string;
-  price: number;
   priceSale: number;
+  price: number;
   relatedItems: string[];
   sizes: string[];
   stock: KeyNumberProps;
@@ -84,7 +85,7 @@ export interface ProductData {
   group_ids: string[];
   apn: number;
   Size: string;
-  price: number;
+  priceSale: number;
   Colour: string;
   prices: Array<{
     type: string;

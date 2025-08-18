@@ -14,12 +14,10 @@ export default async function Page({
       fetchItemsByLevel3(urlLevel3);
 
     return (
-      <article>
-        <Suspense fallback={<Loading />}>
-          <h1>urlLevel3</h1>
-          <Category promise={promise} level={urlLevel3} subLevel="level4" />
-        </Suspense>
-      </article>
+      <Suspense fallback={<Loading />}>
+        <h1>urlLevel3</h1>
+        <Category promise={promise} level={urlLevel3} subLevel="level4" />
+      </Suspense>
     );
   }
 

@@ -1,13 +1,16 @@
-import Header from '@/app/ui/header';
-import Footer from '@/app/ui/footer';
-import { ContainerProps } from '@/app/lib/definitions';
-import styles from '@/app/css/Container.module.css';
+import Header from "@/app/ui/header";
+import Footer from "@/app/ui/footer";
+import { ContainerProps } from "@/app/lib/definitions";
+import styles from "@/app/css/Container.module.css";
 
 export default function Container({ children }: ContainerProps) {
   return (
     <div className={styles.container}>
       <Header />
-      <main>{children}</main>
+      <main>
+        {/* // TODO: check article here */}
+        <article>{children}</article> 
+      </main>
       <Footer />
     </div>
   );

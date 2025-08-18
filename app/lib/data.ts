@@ -103,7 +103,7 @@ export async function fetchItemsByLevel3(query: string) {
       WHERE items.level3 = ${capitalizeFirstLetter(deHyphenate(query))}
       `;
 
-    const items = cameliseArr(data.rows) as ItemsProps[]; // convert db column names to camel case (eg: price_sal to priceSale)
+    const items = cameliseArr(data.rows) as ItemsProps[]; // convert db column names to camel case (eg: price_sal to price)
     return items.length > 0 ? items : undefined;
   } catch (err) {
     console.error("Database Error:", err);
@@ -245,7 +245,7 @@ export async function fetchItemsPriceDrop() {
     return cameliseArr(items);
   } catch (err) {
     console.error("Database Error:", err);
-    throw new Error("Failed to fetch items price drop.");
+    throw new Error("Failed to fetch items priceSale drop.");
   }
 }
 

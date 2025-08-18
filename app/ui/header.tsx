@@ -22,7 +22,7 @@ export default async function Header() {
           </Link>
         </div>
         <h1 className={styles.hdr}>
-          <span>-Mart</span>
+          <span>Mart</span>
         </h1>
         <Nav promise={promise} />
       </div>

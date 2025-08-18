@@ -24,6 +24,77 @@
   text-align: center;
 }
 
+.itemName {
+  height: 60px;
+  font-size: 18px;
+}
+
+.price {
+  font-size: 22px;
+  font-weight: bold;
+}
+
+.priceWas {
+  font-size: 16px;
+  font-weight: normal;
+  margin: 0 5px;
+}
+
+.others {
+  display: flex;
+  margin-top: 20px;
+  align-items: center;
+}
+
+.others > span:first-child {
+}
+
+.other {
+  margin-right: 10px;
+  cursor: pointer;
+}
+
+.other img {
+  border-radius: 50%;
+}
+
+.other img:hover {
+  border-radius: 50%;
+}
+
+.other.selected img {
+  border: 1px solid #d3d3d3;
+  padding: 3px;
+  border-radius: 50%;
+}
+
+.more {
+  position: relative;
+  border: 1px solid #d3d3d3;
+  border-radius: 50%;
+  height: 35px;
+  width: 35px;
+}
+
+.more .num {
+  position: absolute;
+  width: 30px;
+  top: 5px;
+  left: 2px;
+}
+
+.clearance {
+  position: absolute;
+  top: 20px;
+  left: 10px;
+  background-color: #ff0;
+  color: #000;
+  padding: 5px 10px;
+  font-size: 14px;
+  border-radius: 5px;
+  border: 1px solid #d3d3d3;
+}
+
 .subLevels {
   display: flex;
   justify-content: center;

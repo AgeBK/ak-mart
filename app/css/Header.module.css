@@ -13,9 +13,9 @@
 }
 
 .hdr {
-  /* flex-grow: 1; */
-  font-size: 3.7rem;
+  /* font-size: 0.7rem; */
   margin: 15px 0;
+  /* color: #888; */
 }
 
 .logo {
@@ -47,7 +47,7 @@
 
 @media screen and (max-width: 1250px) {
   .hdr {
-    font-size: 3rem;
+    /* font-size: 3rem; */
     margin: 15px 0 0;
     line-height: 2rem;
   }
