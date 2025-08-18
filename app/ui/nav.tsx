@@ -1,3 +1,5 @@
+"use client";
+
 import React, { use } from "react";
 import Link from "next/link";
 import { NavPromiseProps } from "../lib/definitions";
@@ -7,6 +9,9 @@ import styles from "@/app/css/Nav.module.css";
 export default function Nav({ promise }: NavPromiseProps) {
   const data = use(promise);
   const navObj = buildNav(data);
+
+  // console.log(data);
+  // console.log(navObj);
 
   const recursive = (obj: object, ind?: number | undefined) => (
     <ul className={styles.navBarInner} key={`list${ind}`}>

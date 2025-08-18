@@ -3,28 +3,24 @@ import { fetchItemsByLevel3 } from "@/app/lib/data";
 import { Suspense } from "react";
 import Loading from "@/app/ui/loading";
 import Category from "@/app/ui/category";
-import { capitalizeFirstLetter, deHyphenate } from "@/app/lib/utils";
+// import { capitalizeFirstLetter, deHyphenate } from "@/app/lib/utils";
 // import styles from "@/app/css/page.module.css";
 
 export default async function Page({
-  params: { urlLevel3 }, // urlVariety optional passed as array
+  params: { urlLevel3 },
 }: CategoryParamsProps) {
-  console.log(urlLevel3);
-
   if (urlLevel3) {
-    const query = deHyphenate(urlLevel3);
-    if (query) {
-      const promise: Promise<ItemsProps[] | undefined> = fetchItemsByLevel3(
-        capitalizeFirstLetter(query)
-      );
+    const promise: Promise<ItemsProps[] | undefined> =
+      fetchItemsByLevel3(urlLevel3);
 
-      return (
+    return (
+      <article>
         <Suspense fallback={<Loading />}>
           <h1>urlLevel3</h1>
-          <Category promise={promise} />
+          <Category promise={promise} level={urlLevel3} subLevel="level4" />
         </Suspense>
-      );
-    }
+      </article>
+    );
   }
 
   return <h1>Error</h1>;

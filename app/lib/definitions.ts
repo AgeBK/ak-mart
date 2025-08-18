@@ -31,36 +31,37 @@ export type NavLevel = {
 };
 
 export interface ItemsProps {
+  id: number;
+  descriptionId: number;
+  apn: number;
+  clearance: string;
+  colour: string;
   colourOther: string[];
   colourOther2: string[];
-  size: string[];
-  stock: { size: string; amount: number }[];
-  value?: string;
-  id?: string;
-  apn: string;
-  colour?: string;
-  colourSecondary?: string;
-  price?: number;
-  image?: string;
-  altImages?: string[];
-  salePrice?: number;
-  clearance?: boolean;
-  freeShipping?: boolean;
-  level0?: string;
-  level1?: string;
-  level2?: string;
-  level3?: string;
-  level4?: string;
-  levels?: string[];
-  relatedProducts?: string[];
-  imageK: string;
-  altImagesK: string[];
+  colourSecondary: string;
+  image: string;
+  imagesOther: string[];
+  itemGroup: string;
+  itemName: string;
+  level0: string;
+  level1: string;
+  level2: string;
+  level3: string;
+  level4: string;
+  levels: string[];
   parent: string;
-  group: string;
+  price: number;
+  priceSale: number;
+  relatedItems: string[];
+  sizes: string[];
+  stock: KeyNumberProps;
+  [key: string]: string | number | string[] | KeyNumberProps;
 }
 
-export type SurveyCreatorProps = {
+export type CategoryProps = {
   promise: Promise<ItemsProps[] | undefined>;
+  level: string;
+  subLevel?: string;
 };
 
 export interface ProductData {
@@ -97,6 +98,17 @@ export interface ProductData {
   variation_id: string;
   variant_video: Record<string, unknown>;
   SecondaryColour: string;
+}
+
+export interface SubLevelProps {
+  [key: string]: { link: string; image: string };
+}
+
+export interface ImgResponsiveProps {
+  imgSrc: string;
+  imgAlt: string;
+  imgStyle: string;
+  imgPriority?: boolean;
 }
 
 export interface VariationDataProps {

@@ -1,0 +1,165 @@
+.carousel {
+  anchor-name: --carousel;
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 30%;
+  gap: 2rem;
+  overflow: hidden;
+  scroll-snap-type: x mandatory;
+  margin: 0 auto;
+  /* scroll-marker-group: after; */
+  > li {
+    scroll-snap-align: center;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    scroll-behavior: smooth;
+  }
+}
+
+/* SCROLL MARKERS */
+
+.carousel::scroll-marker-group {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  height: 25px;
+  margin-block-start: 1rem;
+}
+
+.carousel li::scroll-marker {
+  content: " ";
+  border: 2px solid CanvasText;
+  border-radius: 100%;
+  height: 25ppx;
+  width: 25px;
+}
+
+.carousel li::scroll-marker:hover,
+.carousel li::scroll-marker:focus-visible {
+  background: LinkText;
+}
+
+.carousel li::scroll-marker:target-current {
+  background: CanvasText;
+}
+
+/* SCROLL BUTTONS */
+
+.carousel::scroll-button(*) {
+  position: absolute;
+  position-anchor: --carousel;
+  /* height: 100%; */
+  background-color: #fff;
+  border: 2px solid #424242;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  font-size: 20px;
+  cursor: pointer;
+  transition: 0.25s all ease-in-out;
+}
+
+.carousel::scroll-button(left) {
+  content: "<" / "Prev";
+  position-area: center left;
+}
+
+.carousel::scroll-button(right) {
+  content: ">" / "Next";
+  position-area: center right;
+}
+
+.carousel::scroll-button(*):disabled {
+  border: 1px solid #d3d3d3;
+  cursor: default;
+}
+
+/* DEMO STYLES */
+
+@layer decor {
+  /* html {
+    color-scheme: dark;
+  } */
+
+  .carousel {
+    /* border: 5px solid CanvasText; */
+    margin: auto;
+    padding: 1.5rem;
+    width: min(100%, 800px);
+
+    > li {
+      list-style: "";
+    }
+  }
+}
+
+@layer base {
+  .support-notice {
+    background: hsl(50 100% 90%);
+    color: Canvas;
+    border-radius: 8px;
+    font-family: monospace;
+    font-size: 1rem;
+    line-height: 1.55;
+    margin-block: 1rem;
+    margin-inline: auto;
+    padding: 1rem;
+    width: max(30ch, 80vw);
+
+    @supports (scroll-marker-group: before) {
+      display: none;
+    }
+  }
+}
+
+.carouselItem {
+  /* flex: 1; */
+  /* margin: 10px; */
+  /* padding: 10px; */
+  position: relative;
+  text-align: center;
+}
+
+.carouselItem:hover {
+  border: 1px solid #f6f6f6;
+  box-shadow: rgba(34, 34, 34, 0.2) 0px 0px 9px;
+}
+
+.carouselItem .title {
+  height: 50px;
+}
+
+.carouselItem img {
+  border-radius: 50%;
+}
+
+/* Less then 3 items */
+.noBtns {
+  display: flex;
+  max-width: 120px;
+}
+
+.noBtns .carouselItem {
+  margin: 10px;
+}
+
+.noBtns::scroll-button(*) {
+}
+
+@media screen and (max-width: 900px) {
+  .carousel {
+    padding: 0.5rem;
+    width: min(100%, 500px);
+    gap: 1rem;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .carousel {
+    grid-auto-columns: 50%;
+    padding: 0.5rem;
+    width: min(100%, 300px);
+    gap: 0;
+  }
+}

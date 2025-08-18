@@ -1,6 +1,6 @@
-import Image from 'next/image';
-import data from '@/app/lib/appData.json';
-import { ImgProps } from '../lib/definitions';
+import Image from "next/image";
+import data from "@/app/lib/appData.json";
+import { ImgProps } from "../lib/definitions";
 
 export default function Img({
   imgSrc,
@@ -11,6 +11,7 @@ export default function Img({
 }: ImgProps) {
   // main image component used across site
   const { imgPath } = data;
+  
   return (
     <Image
       src={`${imgPath}${imgSrc}`}

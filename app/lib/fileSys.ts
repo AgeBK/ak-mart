@@ -34,4 +34,24 @@ const renameFiles = () => {
   });
 };
 
-export { writeFile, renameFiles };
+const uploadImg = async (file: Blob, productId: string) => {
+  const fileName: string = `${productId}.webp`;
+  const formData = new FormData();
+  formData.append("file", file, fileName);
+
+  const response = await fetch("/api/upload", {
+    method: "POST",
+    body: formData,
+  });
+
+  const result = await response.json();
+
+  if (result.success) {
+    return true;
+  } else {
+    console.log("ManageUpload image FAILED");
+    return false;
+  }
+};
+
+export { writeFile, renameFiles, uploadImg };

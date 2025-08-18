@@ -1,4 +1,4 @@
-import { ItemsProps } from "./definitions";
+import { ItemsProps, SubLevelProps } from "./definitions";
 import {} from "@/app/lib/data";
 
 export const formatCurrency = (amount: number) => {
@@ -16,31 +16,9 @@ const capitalizeFirstLetter = (string: string) => {
   return wordsArr.join(" ");
 };
 
-const hyphenate = (str: string | undefined) =>
-  typeof str === "string" ? str.toLowerCase().replace(/ /gi, "-") : undefined;
+const hyphenate = (str: string) => str.toLowerCase().replace(/ /gi, "-");
 
-const deHyphenate = (str: string) =>
-  typeof str === "string" ? str.toLowerCase().replace(/-/gi, " ") : undefined;
-
-const uploadImg = async (file: Blob, productId: string) => {
-  const fileName: string = `${productId}.webp`;
-  const formData = new FormData();
-  formData.append("file", file, fileName);
-
-  const response = await fetch("/api/upload", {
-    method: "POST",
-    body: formData,
-  });
-
-  const result = await response.json();
-
-  if (result.success) {
-    return true;
-  } else {
-    console.log("ManageUpload image FAILED");
-    return false;
-  }
-};
+const deHyphenate = (str: string) => str.toLowerCase().replace(/-/gi, " ");
 
 const camelise = (product: ItemsProps) => {
   // convert keys names in object from underscore to camel case (from db to React friendly)
@@ -63,12 +41,29 @@ const deCamelise = (s: string) => {
   return result.charAt(0).toUpperCase() + result.slice(1);
 };
 
+const getSubLevels = (data: ItemsProps[], level: string, url: string) => {
+  // get sub levels from data (eg: get level4 subcategories if level3 data - womens dresses (level3) >> womens mini/maxi/midi dresses (level4))
+  const levels = data?.reduce((acc, val) => {
+    const levelValue = val[level] as string;
+    const lvlItem = levelValue;
+
+    if (lvlItem && !acc[lvlItem]) {
+      acc[lvlItem] = {
+        link: `${url}/${lvlItem}`,
+        image: val.image,
+      };
+    }
+    return acc;
+  }, {} as SubLevelProps);
+  return levels;
+};
+
 export {
   capitalizeFirstLetter,
   hyphenate,
   deHyphenate,
-  uploadImg,
   camelise,
   cameliseArr,
   deCamelise,
+  getSubLevels,
 };

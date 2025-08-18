@@ -1,0 +1,93 @@
+.carousel {
+  width: 80%;
+  display: flex;
+  justify-self: center;
+  gap: 10px;
+  margin: 20px 40px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-marker-group: after; 
+  position: relative;
+}
+
+.carousel::-webkit-scrollbar { 
+   display: none;  
+   scrollbar-width: none;  
+}
+
+
+@media (prefers-reduced-motion: no-preference) {
+  .carousel {
+    scroll-behavior: smooth;
+  }
+}
+
+
+.carousel::scroll-button(left) {
+  content: "<" / "Prev";
+  left: 5%;
+}
+
+.carousel::scroll-button(right) {
+  content: "˃" / "Next";
+  right: 5%;
+}
+
+.carousel::scroll-button(*)
+{
+  position: absolute;
+  top: 160px;
+  background-color: #fff;
+  border: 2px solid #424242;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  font-size: 20px;
+  cursor: pointer;
+  transition: 0.25s all ease-in-out;
+}
+
+.carousel::scroll-button(*):hover{
+  background-color: #e1e1e1;
+}
+
+.carousel::scroll-button(*):disabled{
+  opacity: 0.2;
+  color: #000;
+}
+
+.carousel::scroll-marker-group {
+  display: flex;
+  gap: 10px;
+  position: absolute;
+  left: 50%;
+  margin-top: 25px;
+  transform: translateX(-50%);
+}
+
+.slide {
+  scroll-snap-align: center;
+  height: 250px;
+  min-width: 400px;
+  border: 2px solid #000;
+  font-size: 22px;
+  background-color: #fff;
+  padding: 20px 40px;
+}
+
+.slide::scroll-marker {
+  content:"";
+  border: 1px solid #424242;
+  border-radius: 50%;
+  height: 20px;
+  width: 20px;
+  transition: 0.1s all ease-in-out;
+}
+
+.slide::scroll-marker:hover {
+    background-color: #e3e3e3;
+}
+
+.slide::scroll-marker:target-current {
+  background-color: #424242;
+}

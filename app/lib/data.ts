@@ -1,7 +1,12 @@
 import { sql } from "@vercel/postgres";
 import { ItemsProps, NavDataProps } from "./definitions";
 import { unstable_noStore as noStore } from "next/cache";
-import { camelise, cameliseArr } from "./utils";
+import {
+  camelise,
+  cameliseArr,
+  capitalizeFirstLetter,
+  deHyphenate,
+} from "./utils";
 
 export async function fetchItems(): Promise<ItemsProps[] | undefined> {
   // noStore() prevents the response from being cached. (good for dev) TODO
@@ -16,7 +21,7 @@ export async function fetchItems(): Promise<ItemsProps[] | undefined> {
     const items = data.rows;
     items.reverse();
     // return cameliseArr(items);
-    return items ? cameliseArr(items) : undefined; // convert db column names to camel case (eg: price_normal to priceNormal)
+    return items ? (cameliseArr(items) as ItemsProps[]) : undefined; // convert db column names to camel case (eg: price_normal to priceNormal)
   } catch (err) {
     console.error("Database Error:", err);
     throw new Error("Failed to fetch items.");
@@ -25,7 +30,7 @@ export async function fetchItems(): Promise<ItemsProps[] | undefined> {
 
 export async function fetchItemById(
   query: number
-): Promise<ItemsProps[] | undefined> {
+): Promise<ItemsProps | undefined> {
   noStore();
 
   try {
@@ -36,7 +41,7 @@ export async function fetchItemById(
       `;
 
     const item = data.rows[0];
-    return item ? camelise(item) : undefined; // convert db column names to camel case (eg: price_normal to priceNormal)
+    return item ? (camelise(item) as ItemsProps) : undefined; // convert db column names to camel case (eg: price_normal to priceNormal)
   } catch (err) {
     console.error("Database Error:", err);
     throw new Error("Failed to fetch item by id.");
@@ -58,7 +63,7 @@ export async function fetchItemsByLevel1(
     const items = data.rows;
     items.reverse();
     // return cameliseArr(items);
-    return items ? cameliseArr(items) : undefined; // convert db column names to camel case (eg: price_normal to priceNormal)
+    return items ? (cameliseArr(items) as ItemsProps[]) : undefined; // convert db column names to camel case (eg: price_normal to priceNormal)
   } catch (err) {
     console.error("Database Error:", err);
     throw new Error("Failed to fetch item by level.");
@@ -80,32 +85,29 @@ export async function fetchItemsByLevel2(
     const items = data.rows;
     items.reverse();
     // return cameliseArr(items);
-    return items ? cameliseArr(items) : undefined; // convert db column names to camel case (eg: price_normal to priceNormal)
+    return items ? (cameliseArr(items) as ItemsProps[]) : undefined; // convert db column names to camel case (eg: price_normal to priceNormal)
   } catch (err) {
     console.error("Database Error:", err);
     throw new Error("Failed to fetch item by level.");
   }
 }
 
-export async function fetchItemsByLevel3(
-  query: string
-): Promise<ItemsProps[] | undefined> {
+export async function fetchItemsByLevel3(query: string) {
   noStore();
 
   try {
     const data = await sql<ItemsProps>`
       SELECT *    
       FROM items
-      WHERE level3 = ${query}
+      INNER JOIN description ON items.description_id = description.id
+      WHERE items.level3 = ${capitalizeFirstLetter(deHyphenate(query))}
       `;
 
-    const items = data.rows;
-    items.reverse();
-    // return cameliseArr(items);
-    return items ? cameliseArr(items) : undefined; // convert db column names to camel case (eg: price_normal to priceNormal)
+    const items = cameliseArr(data.rows) as ItemsProps[]; // convert db column names to camel case (eg: price_sal to priceSale)
+    return items.length > 0 ? items : undefined;
   } catch (err) {
     console.error("Database Error:", err);
-    throw new Error("Failed to fetch item by level.");
+    throw new Error("Failed to fetch item by level 3.");
   }
 }
 
@@ -124,7 +126,7 @@ export async function fetchItemsByLevel4(
     const items = data.rows;
     items.reverse();
     // return cameliseArr(items);
-    return items ? cameliseArr(items) : undefined; // convert db column names to camel case (eg: price_normal to priceNormal)
+    return items ? (cameliseArr(items) as ItemsProps[]) : undefined; // convert db column names to camel case (eg: price_normal to priceNormal)
   } catch (err) {
     console.error("Database Error:", err);
     throw new Error("Failed to fetch item by level.");
@@ -139,6 +141,11 @@ export async function fetchNavLevels(): Promise<NavDataProps[] | undefined> {
       SELECT level1, level2, level3, level4
       from items
       `;
+
+    // const data = await sql<NavDataProps>`
+    //   SELECT DISTINCT ON (level4) level1, level2, level3, level4
+    //   from items
+    //   `;
 
     const items = data.rows;
     // return cameliseArr(items);

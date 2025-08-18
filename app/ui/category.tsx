@@ -2,115 +2,107 @@
 
 import React, { use } from "react";
 import Link from "next/link";
-import { SurveyCreatorProps } from "../lib/definitions";
-import { hyphenate } from "../lib/utils";
+import Carousel from "./carousel";
+import { CategoryProps, ItemsProps, SubLevelProps } from "../lib/definitions";
+import { getSubLevels, hyphenate } from "../lib/utils";
 import styles from "@/app/css/Category.module.css";
+import ImgFill from "./image-responsive";
 
-export default function Category({ promise }: SurveyCreatorProps) {
+export default function Category({ promise, level, subLevel }: CategoryProps) {
   const data = use(promise);
-  console.log(data);
-  const o: Record<string, any> = {};
 
-  data?.forEach(
-    (val: {
-      level1?: string;
-      level2?: string;
-      level3?: string;
-      level4?: string;
-    }) => {
-      const { level1, level2, level3, level4 } = val;
-      if (level1 && !o[level1]) {
-        o[level1] = { [level1]: hyphenate(level1.toLowerCase()) };
-      }
-
-      if (level1 && level2 && !o[level1][level2]) {
-        o[level1][level2] = {
-          [level2]: hyphenate(
-            "/" + level1.toLowerCase() + "/" + level2.toLowerCase()
-          ),
-        };
-      }
-
-      if (level1 && level2 && level3 && !o[level1][level2][level3]) {
-        o[level1][level2][level3] = {
-          [level3]: hyphenate(
-            "/" +
-              level1.toLowerCase() +
-              "/" +
-              level2.toLowerCase() +
-              "/" +
-              level3.toLowerCase()
-          ),
-        };
-      }
-
-      if (
-        level1 &&
-        level2 &&
-        level3 &&
-        level4 &&
-        !o[level1][level2][level3][level4]
-      )
-        o[level1][level2][level3][level4] = {
-          [level3]: hyphenate(
-            "/" +
-              level1.toLowerCase() +
-              "/" +
-              level2.toLowerCase() +
-              "/" +
-              level3.toLowerCase() +
-              "/" +
-              level4.toLowerCase()
-          ),
-        };
+  if (data) {
+    console.log(data);
+    let subLevelObj: SubLevelProps | undefined = {};
+    if (subLevel) {
+      subLevelObj = getSubLevels(data, subLevel, location.pathname);
     }
-  );
+    console.log(subLevelObj);
 
-  console.log(o);
-  console.log(Object.keys(o));
+    return (
+      <div className={styles.container}>
+        <h1>{level}</h1>
+        <Carousel data={subLevelObj} />
+        <div className={styles.items}>
+          {data?.map((val) => {
+            const {
+              id,
+              descriptionId,
+              apn,
+              clearance,
+              colour,
+              colourOther,
+              colourOther2,
+              colourSecondary,
+              image,
+              imagesOther,
+              itemGroup,
+              itemName,
+              level0,
+              level1,
+              level2,
+              level3,
+              level4,
+              levels,
+              parent,
+              price,
+              priceSale,
+              relatedItems,
+              sizes,
+              stock,
+              title,
+              description,
+              material,
+              features,
+              fit,
+              care,
+            } = val;
 
-  const recursive = (obj: object, ind?: number | undefined) => (
-    <ul className={styles.navBarInner} key={`list${ind}`}>
-      {Object.entries(obj).map(([key, val], i) => {
-        console.log("key: " + key);
-        console.log("val:");
-        console.log(val);
-        console.log(Object.values(val).length);
-        console.log("================");
-        console.log("val[key]: " + val[key]);
+            console.log(description);
 
-        return (
-          <li key={`item-${i}`}>
-            {typeof val === "object" &&
-              typeof val[key] === "string" &&
-              Object.values(val).length > 1 && (
-                <Link href={hyphenate(val[key].toLowerCase())}>{key}::</Link>
-              )}
-            {typeof val === "object" && Object.values(val).length > 1
-              ? recursive(val, i)
-              : typeof val === "object" &&
-                Object.values(val).length === 1 && (
-                  <Link href={hyphenate(Object.values(val).toString())}>
-                    {key}
-                  </Link>
-                )}
-            {}
-          </li>
-        );
-      })}
-    </ul>
-  );
-
-  const elem = recursive(o);
-
-  return (
-    <div className={styles.container}>
-      <h1>Category</h1>
-
-      {/* <div>nav bar</div>
-      <img src="/img/navObj.png" alt="nav object" />
-
-      <nav> {elem}</nav> */}
-    </div>
-  );
+            const link = `/${level1}/${level2}/${level3}/${level4}/${id}`;
+            return (
+              <div className={styles.item} key={apn}>
+                <Link href={link}>
+                  <ImgFill
+                    imgSrc={image}
+                    imgAlt={itemName}
+                    imgStyle="category"
+                  />
+                  <div>{itemName}</div>{" "}
+                  {priceSale ? (
+                    <div className={styles.price}>{priceSale}</div>
+                  ) : (
+                    <div className={styles.priceWas}>was{price}</div>
+                  )}
+                  <div className={styles.price}>{price}</div>
+                </Link>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    );
+  } else {
+    return <h1>No items found for {level}.</h1>; // TODO: Improve this error message
+  }
 }
+
+// {subLevelObj && Object.keys(subLevelObj).length > 0 && (
+//   <div className={styles.subLevels}>
+//     {Object.entries(subLevelObj).map(([key, value]) => (
+//       <div className={styles.subLevelItem} key={key}>
+//         <div className={styles.subLevelInner}>
+//           <Link href={value.link}>
+//             <ImgFill
+//               imgSrc={value.image}
+//               imgAlt={key}
+//               imgStyle="categorySub"
+//             />
+//             <span>{key}</span>
+//           </Link>
+//         </div>
+//       </div>
+//     ))}
+//   </div>
+// )}
