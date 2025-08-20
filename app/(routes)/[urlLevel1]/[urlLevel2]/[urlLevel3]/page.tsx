@@ -1,14 +1,17 @@
 import { CategoryParamsProps, ItemsProps } from "@/app/lib/definitions";
 import { fetchItemsByLevel3 } from "@/app/lib/data";
-import { Suspense } from "react";
+import { Suspense, use } from "react";
+import * as React from "react";
+
 import Loading from "@/app/ui/loading";
 import Category from "@/app/ui/category";
 // import { capitalizeFirstLetter, deHyphenate } from "@/app/lib/utils";
 // import styles from "@/app/css/page.module.css";
 
-export default async function Page({
-  params: { urlLevel3 },
-}: CategoryParamsProps) {
+export default async function Page({ params }: CategoryParamsProps) {
+  const { urlLevel3 } = await params;
+  console.log(urlLevel3);
+  
   if (urlLevel3) {
     const promise: Promise<ItemsProps[] | undefined> =
       fetchItemsByLevel3(urlLevel3);

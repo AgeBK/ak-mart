@@ -29,17 +29,6 @@
   font-size: 18px;
 }
 
-.price {
-  font-size: 22px;
-  font-weight: bold;
-}
-
-.priceWas {
-  font-size: 16px;
-  font-weight: normal;
-  margin: 0 5px;
-}
-
 .others {
   display: flex;
   margin-top: 20px;
@@ -81,18 +70,6 @@
   width: 30px;
   top: 5px;
   left: 2px;
-}
-
-.clearance {
-  position: absolute;
-  top: 20px;
-  left: 10px;
-  background-color: #ff0;
-  color: #000;
-  padding: 5px 10px;
-  font-size: 14px;
-  border-radius: 5px;
-  border: 1px solid #d3d3d3;
 }
 
 .subLevels {

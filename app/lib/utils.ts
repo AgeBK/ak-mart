@@ -58,6 +58,14 @@ const getSubLevels = (data: ItemsProps[], level: string, url: string) => {
   return levels;
 };
 
+const calculateDays = (dt) => {
+  const now = new Date();
+  const productAdded = new Date(dt);
+  const timeDifference = now - productAdded;
+  const daysDifference = timeDifference / (1000 * 3600 * 24);
+  return daysDifference;
+};
+
 export {
   capitalizeFirstLetter,
   hyphenate,
@@ -66,4 +74,5 @@ export {
   cameliseArr,
   deCamelise,
   getSubLevels,
+  calculateDays,
 };

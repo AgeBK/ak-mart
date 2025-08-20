@@ -8,6 +8,10 @@
   margin: 0 auto;
 }
 
+.category img {
+  border: 1px solid #d3d3d3;
+}
+
 .categorySub {
   margin: 0 auto;
   width: 100%;

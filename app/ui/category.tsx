@@ -1,22 +1,33 @@
 "use client";
 
-import React, { use, useEffect, useState } from "react";
+import React, { use, useState } from "react";
 import Link from "next/link";
 import {
   CategoryProps,
+  SelectedImgProps,
   ItemsProps,
   KeyNumberProps,
+  KeyStringArrProps,
   SubLevelProps,
 } from "../lib/definitions";
-import { getSubLevels, hyphenate } from "../lib/utils";
+import {
+  capitalizeFirstLetter,
+  deHyphenate,
+  getSubLevels,
+  hyphenate,
+} from "../lib/utils";
 import ImgFill from "./image-responsive";
 import Img from "./image";
 import Carousel from "./carousel";
 import styles from "@/app/css/Category.module.css";
+import Price from "./price";
 
 export default function Category({ promise, level, subLevel }: CategoryProps) {
-  const [selectedImg, setSelectedImg] = useState<KeyNumberProps>({});
+  // {id: number:{index: number;val: string;}}
+  const [selectedImg, setSelectedImg] = useState<SelectedImgProps>({});
   const data = use(promise);
+
+  // TODO: not all levels have a description??
 
   if (data) {
     console.log(data);
@@ -25,27 +36,41 @@ export default function Category({ promise, level, subLevel }: CategoryProps) {
       subLevelObj = getSubLevels(data, subLevel, location.pathname);
     }
 
-    const handleSelected = (id: number, index: number) => {
+    const colourVariations = data.reduce((acc, val) => {
+      const { itemName, image } = val;
+      // group same items/different colours
+      if (!acc[itemName]) {
+        acc[itemName] = [image];
+      } else {
+        acc[itemName].push(image);
+      }
+      return acc;
+    }, {} as KeyStringArrProps);
+    console.log(colourVariations);
+
+    const handleSelected = (apn: number, ind: number, val: string) => {
       const newObj = { ...selectedImg };
-      newObj[id] = index;
+      newObj[apn] = { ind, val };
       setSelectedImg(newObj);
     };
 
-    const checkSelected = (id: number, index: number) => {
-      if (selectedImg[id]) {
-        if (selectedImg[id] === index) {
+    const checkSelected = (apn: number, index: number) => {
+      const item = selectedImg[apn];
+      if (item) {
+        const { ind } = item;
+        if (index === ind) {
           return true;
         }
-      } else if (!selectedImg[id] && index === 0) {
+      } else if (!item && index === 0) {
+        // Onload select first item
         return true;
       }
-
       return false;
     };
 
     return (
       <div className={styles.container}>
-        <h1>{level}</h1>
+        <h1>{capitalizeFirstLetter(deHyphenate(level))}</h1>
         <Carousel data={subLevelObj} />
         <div className={styles.items}>
           {data?.map((val) => {
@@ -74,6 +99,7 @@ export default function Category({ promise, level, subLevel }: CategoryProps) {
               relatedItems,
               sizes,
               stock,
+              created,
               title,
               description,
               material,
@@ -82,7 +108,7 @@ export default function Category({ promise, level, subLevel }: CategoryProps) {
               care,
             } = val;
 
-            console.log(description);
+            // console.log(description);
             const link = hyphenate(
               `/${level1}/${level2}/${level3}/${level4}/${id}`
             );
@@ -91,33 +117,26 @@ export default function Category({ promise, level, subLevel }: CategoryProps) {
               <div className={styles.item} key={apn}>
                 <Link href={link}>
                   <ImgFill
-                    imgSrc={image}
+                    imgSrc={(selectedImg[apn] && selectedImg[apn].val) || image}
                     imgAlt={itemName}
                     imgStyle="category"
                   />
                   <div className={styles.itemName}>{itemName}</div>
-                  {price !== priceSale ? (
-                    <>
-                      <div className={styles.clearance}>Clearance</div>
-                      <div className={styles.price}>
-                        <span className={styles.currency}>$</span>
-                        {priceSale}
-                        <span className={styles.priceWas}>was ${price}</span>
-                      </div>
-                    </>
-                  ) : (
-                    <div className={styles.price}>${price}</div>
-                  )}
+                  <Price
+                    price={price}
+                    priceSale={priceSale}
+                    created={created}
+                  />
                 </Link>
                 <div className={styles.others}>
                   {imagesOther.slice(0, 3).map((val, i) => {
                     return (
                       <span
                         className={`${styles.other} ${
-                          checkSelected(i, id) && styles.selected
+                          checkSelected(apn, i) && styles.selected
                         }`}
                         key={val}
-                        onClick={() => handleSelected(id, i)}
+                        onClick={() => handleSelected(apn, i, val)}
                       >
                         <Img
                           imgSrc={val}

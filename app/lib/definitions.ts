@@ -2,6 +2,10 @@ export interface KeyStringProps {
   [key: string]: string;
 }
 
+export interface KeyStringArrProps {
+  [key: string]: string[];
+}
+
 export interface KeyNumberProps {
   [key: string]: number;
 }
@@ -13,6 +17,13 @@ export type CategoryParamsProps = {
     urlLevel3?: string;
     urlLevel4?: string;
     urlId: string;
+  };
+};
+
+export type SelectedImgProps = {
+  [key: string]: {
+    ind: number;
+    val: string;
   };
 };
 

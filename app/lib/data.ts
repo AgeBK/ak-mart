@@ -95,12 +95,18 @@ export async function fetchItemsByLevel2(
 export async function fetchItemsByLevel3(query: string) {
   noStore();
 
+  // TODO: check Select Items
+
   try {
     const data = await sql<ItemsProps>`
-      SELECT *    
+      SELECT items.id, items.description_id, items.apn, items.clearance, items.colour, 
+        items.image, items.images_other, items.item_group, items.item_name, items. level0, items.level1, items.level2,
+        items.level3, items.level4, items.levels, items. parent, items.price_sale, items.price, items.created, items.stock,
+        description.title, description.description, description.material, description.features, description.fit, description.care
       FROM items
       INNER JOIN description ON items.description_id = description.id
       WHERE items.level3 = ${capitalizeFirstLetter(deHyphenate(query))}
+      ORDER BY items.created desc
       `;
 
     const items = cameliseArr(data.rows) as ItemsProps[]; // convert db column names to camel case (eg: price_sal to price)
