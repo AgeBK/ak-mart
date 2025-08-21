@@ -21,6 +21,7 @@ import Img from "./image";
 import Carousel from "./carousel";
 import styles from "@/app/css/Category.module.css";
 import Price from "./price";
+import Breadcrumb from "./breadcrumb";
 
 export default function Category({ promise, level, subLevel }: CategoryProps) {
   // {id: number:{index: number;val: string;}}
@@ -28,6 +29,7 @@ export default function Category({ promise, level, subLevel }: CategoryProps) {
   const data = use(promise);
 
   // TODO: not all levels have a description??
+  // TODO: breadcrumb, low stock? carousel low items
 
   if (data) {
     console.log(data);
@@ -70,6 +72,7 @@ export default function Category({ promise, level, subLevel }: CategoryProps) {
 
     return (
       <div className={styles.container}>
+        <Breadcrumb />
         <h1>{capitalizeFirstLetter(deHyphenate(level))}</h1>
         <Carousel data={subLevelObj} />
         <div className={styles.items}>
@@ -108,6 +111,8 @@ export default function Category({ promise, level, subLevel }: CategoryProps) {
               care,
             } = val;
 
+            console.log(stock);
+
             // console.log(description);
             const link = hyphenate(
               `/${level1}/${level2}/${level3}/${level4}/${id}`
@@ -125,7 +130,7 @@ export default function Category({ promise, level, subLevel }: CategoryProps) {
                   <Price
                     price={price}
                     priceSale={priceSale}
-                    created={created}
+                    created={created.toString()}
                   />
                 </Link>
                 <div className={styles.others}>

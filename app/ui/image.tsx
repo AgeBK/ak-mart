@@ -11,7 +11,7 @@ export default function Img({
 }: ImgProps) {
   // main image component used across site
   const { imgPath } = data;
-  
+
   return (
     <Image
       src={`${imgPath}${imgSrc}`}

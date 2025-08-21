@@ -1,4 +1,9 @@
-.carousel {
+.container {
+  height: 200px;
+}
+
+.carousel,
+.noBtns {
   anchor-name: --carousel;
   display: grid;
   grid-auto-flow: column;
@@ -15,6 +20,10 @@
   @media (prefers-reduced-motion: no-preference) {
     scroll-behavior: smooth;
   }
+}
+
+.noBtns {
+  /* grid-auto-columns: 50%; */
 }
 
 /* SCROLL MARKERS */
@@ -71,7 +80,8 @@
 }
 
 .carousel::scroll-button(*):disabled {
-  border: 1px solid #d3d3d3;
+  border: 1px solid #f3f3f3;
+  color: #f3f3f3;
   cursor: default;
 }
 
@@ -114,15 +124,13 @@
 }
 
 .carouselItem {
-  /* flex: 1; */
-  /* margin: 10px; */
-  /* padding: 10px; */
   position: relative;
   text-align: center;
+  padding: 10px;
 }
 
 .carouselItem:hover {
-  border: 1px solid #f6f6f6;
+  border: 1px solid #f3f3f3;
   box-shadow: rgba(34, 34, 34, 0.2) 0px 0px 9px;
 }
 
@@ -137,15 +145,14 @@
 /* Less then 3 items */
 .noBtns {
   display: flex;
-  max-width: 120px;
 }
 
 .noBtns .carouselItem {
   margin: 10px;
 }
 
-.noBtns::scroll-button(*) {
-}
+/* .noBtns::scroll-button(*) {
+} */
 
 @media screen and (max-width: 900px) {
   .carousel {

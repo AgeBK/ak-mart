@@ -9,16 +9,16 @@ import Category from "@/app/ui/category";
 // import styles from "@/app/css/page.module.css";
 
 export default async function Page({ params }: CategoryParamsProps) {
-  const { urlLevel3 } = await params;
+  const { urlLevel3 } = await params; // TODO: ??
   console.log(urlLevel3);
-  
+
   if (urlLevel3) {
     const promise: Promise<ItemsProps[] | undefined> =
       fetchItemsByLevel3(urlLevel3);
 
     return (
       <Suspense fallback={<Loading />}>
-        <h1>urlLevel3</h1>
+        {/* <h1>urlLevel3</h1> */}
         <Category promise={promise} level={urlLevel3} subLevel="level4" />
       </Suspense>
     );

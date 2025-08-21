@@ -1,0 +1,28 @@
+.container {
+  margin-bottom: 30px;
+  font-size: 14px;
+}
+
+.container li {
+  display: flex;
+  line-height: 20px;
+  /* margin-right: 0 10px; */
+}
+
+.container li {
+  display: inline-block;
+  /* margin-right: 0 10px; */
+}
+
+.container li a {
+  color: #888;
+}
+
+.arrow {
+  border: solid #d3d3d3;
+  border-width: 0 3px 3px 0;
+  display: inline-block;
+  padding: 3px;
+  margin: 0 10px 0 5px;
+  transform: rotate(-45deg);
+}

@@ -2,12 +2,15 @@ import React from "react";
 import styles from "@/app/css/Price.module.css";
 import { calculateDays } from "../lib/utils";
 
-export default function Price({ price, priceSale, created }) {
-  const sale = price !== priceSale;
+interface PriceProps {
+  price: number;
+  priceSale: number;
+  created: string;
+}
 
-  //   console.log(created);
+export default function Price({ price, priceSale, created }: PriceProps) {
+  const sale = price !== priceSale;
   const productAge = calculateDays(created);
-  console.log(productAge);
 
   return (
     <div className={styles.priceContainer}>
