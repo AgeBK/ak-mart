@@ -28,7 +28,8 @@ article {
 
 h1,
 h2,
-h3 {
+h3,
+h4 {
   margin: 0;
   padding: 0;
 }
@@ -41,6 +42,10 @@ button {
   font: inherit;
   cursor: pointer;
   outline: inherit;
+}
+
+button:disabled {
+  cursor: not-allowed;
 }
 
 /* @media screen and (max-width: 900px) {

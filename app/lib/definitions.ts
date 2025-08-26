@@ -76,6 +76,40 @@ export type CategoryProps = {
   subLevel?: string;
 };
 
+export type CartItemProps = {
+  id: number;
+  itemName: string;
+  colour: string;
+  image: string;
+  cost: number;
+  qty: number;
+  size: number;
+};
+
+// item in cart
+export type CartProps = {
+  [id: string]: CartItemProps;
+};
+
+export interface CartStateProps extends CartItemProps {
+  cart: CartItemProps;
+}
+
+export type PurchaseItemProps = {
+  id: number;
+  itemName: string;
+  colour: string;
+  image: string;
+  price: number;
+  priceSale: number;
+  stock: KeyNumberProps;
+};
+
+
+// *****************************
+// *****************************
+// *****************************
+
 export interface ProductData {
   id: string;
   url: string;

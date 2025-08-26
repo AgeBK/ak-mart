@@ -1,4 +1,9 @@
-import { ItemsProps, SubLevelProps } from "./definitions";
+import {
+  CartItemProps,
+  CartProps,
+  ItemsProps,
+  SubLevelProps,
+} from "./definitions";
 import {} from "@/app/lib/data";
 
 export const formatCurrency = (amount: number) => {
@@ -66,6 +71,73 @@ const calculateDays = (dt) => {
   return daysDifference;
 };
 
+const storeCart = (cart: CartProps) =>
+  sessionStorage.setItem("AKmart", JSON.stringify(cart));
+
+const getCart = () => {
+  const cart = sessionStorage.getItem("AKmart");
+  return cart ? JSON.parse(cart) : null;
+};
+
+const addToCart = (
+  cart: CartProps,
+  id: number,
+  itemName: string,
+  colour: string,
+  image: string,
+  cost: number,
+  size: number,
+  qty: number
+) => {
+  console.log(cart, id, itemName, colour, image, cost, size, qty);
+  let cartObj = {} as CartProps;
+  // let cart = getCart() || {};
+  // let cart = stateCart;
+  const cartId = `${id}_${size}`;
+  console.log(cart);
+  console.log("cartId: " + cartId);
+
+  if (cart[cartId] && cart[cartId].size === size) {
+    // item exists, need to check size for exact match
+    cart[cartId].qty += 1;
+  } else {
+    // new cart item
+    cartObj = {
+      [cartId]: {
+        id,
+        itemName,
+        colour,
+        image,
+        cost,
+        size,
+        qty,
+      },
+    };
+  }
+
+  cart = { ...cart, ...cartObj };
+
+  // storeCart(cart);
+  return cart;
+};
+
+// const totalCart = (cart: CartProps) =>
+//   Object.values(cart as CartProps).reduce((acc, { cost, qty }) => {
+//     acc += cost * qty;
+//     return acc;
+//   }, 0);
+
+const cartPriceQty = (cart: CartProps) =>
+  // returns total price of all cart items/counts all cart items
+  Object.values(cart as CartProps).reduce(
+    (acc, { cost, qty }) => {
+      acc.total += cost * qty; // total price
+      acc.items += qty; // total items
+      return acc;
+    },
+    { total: 0, items: 0 }
+  );
+
 export {
   capitalizeFirstLetter,
   hyphenate,
@@ -75,4 +147,9 @@ export {
   deCamelise,
   getSubLevels,
   calculateDays,
+  storeCart,
+  getCart,
+  addToCart,
+  // totalCart,
+  cartPriceQty,
 };

@@ -3,9 +3,11 @@ import Nav from "./nav";
 import Img from "./image";
 import { fetchNavLevels } from "../lib/data";
 import styles from "@/app/css/Header.module.css";
+import Cart from "./cart";
 
-export default async function Header() {
+export default function Header() {
   const promise = fetchNavLevels();
+  console.log("Header");
 
   return (
     <header className={styles.header}>
@@ -25,6 +27,7 @@ export default async function Header() {
           <span>Mart</span>
         </h1>
         <Nav promise={promise} />
+        <Cart />
       </div>
     </header>
   );

@@ -10,17 +10,17 @@ export default function Breadcrumb() {
   const bcLink = (val: string) => (link = `${link}/${val}`);
 
   const homeLink = (
-    <li key="home">
-      <Link href="/">
-        <Img
-          imgSrc={"home.png"}
-          imgAlt="home"
-          imgWidth={14}
-          imgHeight={14}
-          imgPriority={true}
-        />
-      </Link>
-    </li>
+    // <li key="home">
+    <Link href="/">
+      <Img
+        imgSrc={"home.png"}
+        imgAlt="home"
+        imgWidth={14}
+        imgHeight={14}
+        imgPriority={true}
+      />
+    </Link>
+    //    </li>
   );
 
   return (

@@ -24,6 +24,10 @@
   text-align: center;
 }
 
+.imgCont {
+  position: relative;
+}
+
 .itemName {
   height: 60px;
   font-size: 18px;

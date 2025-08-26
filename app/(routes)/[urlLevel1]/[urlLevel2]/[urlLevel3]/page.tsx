@@ -1,11 +1,8 @@
 import { CategoryParamsProps, ItemsProps } from "@/app/lib/definitions";
 import { fetchItemsByLevel3 } from "@/app/lib/data";
-import { Suspense, use } from "react";
-import * as React from "react";
-
+import { Suspense } from "react";
 import Loading from "@/app/ui/loading";
 import Category from "@/app/ui/category";
-// import { capitalizeFirstLetter, deHyphenate } from "@/app/lib/utils";
 // import styles from "@/app/css/page.module.css";
 
 export default async function Page({ params }: CategoryParamsProps) {
@@ -18,7 +15,6 @@ export default async function Page({ params }: CategoryParamsProps) {
 
     return (
       <Suspense fallback={<Loading />}>
-        {/* <h1>urlLevel3</h1> */}
         <Category promise={promise} level={urlLevel3} subLevel="level4" />
       </Suspense>
     );

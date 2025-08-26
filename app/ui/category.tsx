@@ -22,6 +22,7 @@ import Carousel from "./carousel";
 import styles from "@/app/css/Category.module.css";
 import Price from "./price";
 import Breadcrumb from "./breadcrumb";
+import Modal from "./Modal";
 
 export default function Category({ promise, level, subLevel }: CategoryProps) {
   // {id: number:{index: number;val: string;}}
@@ -111,21 +112,38 @@ export default function Category({ promise, level, subLevel }: CategoryProps) {
               care,
             } = val;
 
-            console.log(stock);
+            // console.log(stock);
 
-            // console.log(description);
+            // not always a level4
             const link = hyphenate(
-              `/${level1}/${level2}/${level3}/${level4}/${id}`
+              `/${level1}/${level2}/${level3}/${
+                level4 ? `${level4}/${id}` : id
+              }`
             );
 
             return (
               <div className={styles.item} key={apn}>
-                <Link href={link}>
-                  <ImgFill
-                    imgSrc={(selectedImg[apn] && selectedImg[apn].val) || image}
-                    imgAlt={itemName}
-                    imgStyle="category"
+                <div className={styles.imgCont}>
+                  <Link href={link}>
+                    <ImgFill
+                      imgSrc={
+                        (selectedImg[apn] && selectedImg[apn].val) || image
+                      }
+                      imgAlt={itemName}
+                      imgStyle="category"
+                    />
+                  </Link>
+                  <Modal
+                    id={id}
+                    itemName={itemName}
+                    colour={colour}
+                    image={image}
+                    price={price}
+                    priceSale={priceSale}
+                    stock={stock}
                   />
+                </div>
+                <Link href={link}>
                   <div className={styles.itemName}>{itemName}</div>
                   <Price
                     price={price}

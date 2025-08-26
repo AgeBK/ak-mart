@@ -5,7 +5,7 @@ import { calculateDays } from "../lib/utils";
 interface PriceProps {
   price: number;
   priceSale: number;
-  created: string;
+  created?: string;
 }
 
 export default function Price({ price, priceSale, created }: PriceProps) {
