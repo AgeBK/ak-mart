@@ -4,13 +4,12 @@ import Img from "./image";
 import { capitalizeFirstLetter, deHyphenate } from "../lib/utils";
 import styles from "@/app/css/Breadcrumb.module.css";
 
-export default function Breadcrumb() {
-  const path = location.pathname.split("/");
+export default function Breadcrumb({ pathname }: { pathname: string }) {
+  const path = pathname.split("/");
   let link = "";
   const bcLink = (val: string) => (link = `${link}/${val}`);
 
   const homeLink = (
-    // <li key="home">
     <Link href="/">
       <Img
         imgSrc={"home.png"}
@@ -20,14 +19,13 @@ export default function Breadcrumb() {
         imgPriority={true}
       />
     </Link>
-    //    </li>
   );
 
   return (
     <div className={styles.container}>
       <ul className={styles.breadcrumb}>
         {path.map((val, i) => {
-          // first link is home, last value is just the name
+          // first link is home, last value is just the name (no link)
           const pathVal = capitalizeFirstLetter(deHyphenate(val));
 
           return (

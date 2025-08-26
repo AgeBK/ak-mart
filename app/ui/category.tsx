@@ -1,12 +1,12 @@
 "use client";
 
 import React, { use, useState } from "react";
+import { usePathname } from "next/navigation";
+
 import Link from "next/link";
 import {
   CategoryProps,
   SelectedImgProps,
-  ItemsProps,
-  KeyNumberProps,
   KeyStringArrProps,
   SubLevelProps,
 } from "../lib/definitions";
@@ -25,18 +25,20 @@ import Breadcrumb from "./breadcrumb";
 import Modal from "./Modal";
 
 export default function Category({ promise, level, subLevel }: CategoryProps) {
-  // {id: number:{index: number;val: string;}}
   const [selectedImg, setSelectedImg] = useState<SelectedImgProps>({});
   const data = use(promise);
+  const pathname = usePathname();
 
   // TODO: not all levels have a description??
-  // TODO: breadcrumb, low stock? carousel low items
+  // TODO: low stock? carousel low items
 
   if (data) {
     console.log(data);
     let subLevelObj: SubLevelProps | undefined = {};
+    console.log(typeof window);
+
     if (subLevel) {
-      subLevelObj = getSubLevels(data, subLevel, location.pathname);
+      subLevelObj = getSubLevels(data, subLevel, pathname);
     }
 
     const colourVariations = data.reduce((acc, val) => {
@@ -73,7 +75,7 @@ export default function Category({ promise, level, subLevel }: CategoryProps) {
 
     return (
       <div className={styles.container}>
-        <Breadcrumb />
+        <Breadcrumb pathname={pathname} />
         <h1>{capitalizeFirstLetter(deHyphenate(level))}</h1>
         <Carousel data={subLevelObj} />
         <div className={styles.items}>
@@ -114,7 +116,7 @@ export default function Category({ promise, level, subLevel }: CategoryProps) {
 
             // console.log(stock);
 
-            // not always a level4
+            // there's not always a level4
             const link = hyphenate(
               `/${level1}/${level2}/${level3}/${
                 level4 ? `${level4}/${id}` : id

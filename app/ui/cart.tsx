@@ -98,7 +98,7 @@ export default function Cart() {
           )}
         </div>
         <div className={styles.total}>
-          <span>Total:</span>
+          <span>Order total:</span>
           <span>${total}</span>
         </div>
         <div className={styles.options}>
