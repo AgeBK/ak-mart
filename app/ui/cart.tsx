@@ -9,18 +9,13 @@ import styles from "@/app/css/Cart.module.css";
 import { CartItemProps, CartProps } from "../lib/definitions";
 
 export default function Cart() {
-  console.log("Cart");
-
   const [toggleModal, setToggleModal] = useState(false);
   const [size, setSize] = useState(0);
   const { total, cart, incQty, decQty, deleteItem, cartItems, items } =
     useStore();
 
-  console.log(cart);
-  console.log(cartItems);
-  console.log(total, items);
 
-  const handleClick = (e) => setToggleModal(!toggleModal);
+  const handleClick = () => setToggleModal(!toggleModal);
 
   const handlePropagation = (e) => e.stopPropagation();
 

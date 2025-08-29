@@ -116,8 +116,6 @@ const addToCart = (
   }
 
   cart = { ...cart, ...cartObj };
-
-  // storeCart(cart);
   return cart;
 };
 

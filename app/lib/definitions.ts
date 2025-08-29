@@ -105,6 +105,11 @@ export type PurchaseItemProps = {
   stock: KeyNumberProps;
 };
 
+export type FilterListProps = {
+  data: KeyNumberProps;
+  filter: string;
+  setFilters: ({}) => void;
+};  
 
 // *****************************
 // *****************************

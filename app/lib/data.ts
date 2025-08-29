@@ -101,7 +101,7 @@ export async function fetchItemsByLevel3(query: string) {
     const data = await sql<ItemsProps>`
       SELECT items.id, items.description_id, items.apn, items.clearance, items.colour, 
         items.image, items.images_other, items.item_group, items.item_name, items. level0, items.level1, items.level2,
-        items.level3, items.level4, items.levels, items. parent, items.price_sale, items.price, items.created, items.stock,
+        items.level3, items.level4, items.levels, items. parent, items.price_sale, items.price, items.created, items.sizes, items.stock,
         description.title, description.description, description.material, description.features, description.fit, description.care
       FROM items
       INNER JOIN description ON items.description_id = description.id

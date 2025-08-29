@@ -1,13 +1,12 @@
 import Link from "next/link";
 import Nav from "./nav";
 import Img from "./image";
+import Cart from "./cart";
 import { fetchNavLevels } from "../lib/data";
 import styles from "@/app/css/Header.module.css";
-import Cart from "./cart";
 
 export default function Header() {
   const promise = fetchNavLevels();
-  console.log("Header");
 
   return (
     <header className={styles.header}>

@@ -1,0 +1,156 @@
+.filters {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  /* background-color: rgba(0, 0, 0, 0.5); */
+  z-index: 9;
+}
+
+.filtersInner {
+  height: 100%;
+  /* margin-top: 50%; */
+  width: 400px;
+  padding: 20px;
+  margin: auto;
+  background-color: #fff;
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 1;
+  /* display: flex;
+  align-items: center; */
+  border: 1px solid #d3d3d3;
+  box-shadow: 0px 8px 10px -5px rgba(0, 0, 0, 0.2),
+    0px 16px 24px 2px rgba(0, 0, 0, 0.14), 0px 6px 30px 5px rgba(0, 0, 0, 0.12);
+}
+
+.btn {
+  border: 1px solid #d3d3d3;
+  padding: 5px 35px;
+  color: #555;
+  font-size: 18px;
+}
+
+.head {
+  display: flex;
+  align-items: center;
+}
+
+.close {
+  font-size: 30px;
+  font-weight: bold;
+  /* position: absolute; */
+  color: #d3d3d3;
+  cursor: pointer;
+  /* top: -25px;
+  right: -10px; */
+}
+
+.close:hover {
+  color: #555;
+}
+
+.hdr {
+  display: inline-block;
+  flex-grow: 1;
+}
+
+/* =========================== */
+
+.filters .head {
+  border-bottom: 1px solid #d3d3d3;
+}
+
+.filterCont {
+}
+
+.filterCont summary {
+  font-size: 20px;
+  border-bottom: 1px solid #d3d3d3;
+  padding: 5px;
+}
+
+.list input {
+  transform: scale(1.5);
+}
+
+.list span:first-child {
+  display: inline-block;
+  margin: 10px 0 5px 5px;
+}
+
+.list span:last-child {
+  color: #888;
+  font-size: 14px;
+}
+
+/* ============================= */
+
+.rangeSlider {
+  height: 5px;
+  position: relative;
+  background-color: #e1e9f6;
+  border-radius: 2px;
+}
+
+.rangeSelected {
+  height: 100%;
+  left: 30%;
+  right: 30%;
+  position: absolute;
+  border-radius: 5px;
+  background-color: #1b53c0;
+}
+
+.rangeInput {
+  position: relative;
+}
+
+.rangeInput input {
+  position: absolute;
+  width: 100%;
+  height: 5px;
+  top: -7px;
+  background: none;
+  pointer-events: none;
+}
+
+.rangeInput input::-webkit-slider-thumb {
+  height: 20px;
+  width: 20px;
+  border-radius: 50%;
+  border: 3px solid blue;
+  background-color: #fff;
+  pointer-events: auto;
+  -webkit-appearance: none;
+}
+
+.rangeInput input::-moz-range-thumb {
+  height: 15px;
+  width: 15px;
+  border-radius: 50%;
+  border: 3px solid blue;
+  background-color: #fff;
+  pointer-events: auto;
+  -moz-appearance: none;
+}
+
+.rangePrice {
+  margin: 30px 0;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.rangePrice label {
+  margin-right: 5px;
+}
+.rangePrice input {
+  width: 40px;
+  padding: 5px;
+}
+.rangePrice input:first-of-type {
+  margin-right: 15px;
+}

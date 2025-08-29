@@ -1,0 +1,30 @@
+.prices {
+  display: flex;
+  padding: 5px;
+}
+
+.prices span {
+  display: inline-block;
+  margin-right: 3px;
+  color: #555;
+}
+
+.prices .min {
+  flex-grow: 1;
+}
+
+.prices .value {
+  font-weight: bold;
+}
+
+/* Chrome, Safari, Edge, and Opera */
+.sliderBox input[type="number"]::-webkit-inner-spin-button,
+.sliderBox input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+.sliderBox input[type="number"] {
+  -moz-appearance: textfield;
+}

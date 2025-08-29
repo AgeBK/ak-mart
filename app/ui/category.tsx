@@ -2,13 +2,13 @@
 
 import React, { use, useState } from "react";
 import { usePathname } from "next/navigation";
-
 import Link from "next/link";
 import {
   CategoryProps,
   SelectedImgProps,
   KeyStringArrProps,
   SubLevelProps,
+  KeyNumberProps,
 } from "../lib/definitions";
 import {
   capitalizeFirstLetter,
@@ -23,23 +23,60 @@ import styles from "@/app/css/Category.module.css";
 import Price from "./price";
 import Breadcrumb from "./breadcrumb";
 import Modal from "./Modal";
+import Filter from "./filter";
 
 export default function Category({ promise, level, subLevel }: CategoryProps) {
   const [selectedImg, setSelectedImg] = useState<SelectedImgProps>({});
-  const data = use(promise);
+  const [filters, setFilters] = useState({ colours: [], sizes: [], price: {} });
+  let data = use(promise);
+  let filteredData = [...data];
   const pathname = usePathname();
+  console.log("Category");
+  console.log(filters);
 
   // TODO: not all levels have a description??
   // TODO: low stock? carousel low items
 
   if (data) {
-    console.log(data);
     let subLevelObj: SubLevelProps | undefined = {};
-    console.log(typeof window);
-
     if (subLevel) {
       subLevelObj = getSubLevels(data, subLevel, pathname);
     }
+    console.log(filters);
+    // if (Object.entries(filters)) {
+    //   data = data.filter((val) => {
+    //     const { colours, sizes } = val;
+    //     console.log(colours, sizes);
+    //   });
+    // }
+
+    Object.entries(filters).filter(([key, val]) => {
+      console.log(key);
+      console.log(val);
+      const length = Object.keys(val).length;
+
+      if (key === "price" && length) {
+        const { minValue, maxValue } = val;
+        filteredData = data.filter(({ price }) => {
+          return price >= minValue && price <= maxValue;
+        });
+      }
+      if (key !== "price" && length) {
+        filteredData = data.filter((v) => {
+          if (key === "size") {
+            const isTrue = v.stock.some(
+              (s: KeyNumberProps) => s.size === Number(val) && s.amount > 0
+            );
+            return isTrue;
+          } else {
+            console.log(v);
+            return v[key] === val; // colour not size (stock)
+          }
+        });
+      }
+    });
+
+    console.log(data);
 
     const colourVariations = data.reduce((acc, val) => {
       const { itemName, image } = val;
@@ -51,7 +88,7 @@ export default function Category({ promise, level, subLevel }: CategoryProps) {
       }
       return acc;
     }, {} as KeyStringArrProps);
-    console.log(colourVariations);
+    // console.log(colourVariations);
 
     const handleSelected = (apn: number, ind: number, val: string) => {
       const newObj = { ...selectedImg };
@@ -78,8 +115,19 @@ export default function Category({ promise, level, subLevel }: CategoryProps) {
         <Breadcrumb pathname={pathname} />
         <h1>{capitalizeFirstLetter(deHyphenate(level))}</h1>
         <Carousel data={subLevelObj} />
+        <div className={styles.optionsCont}>
+          <span className={styles.itemCount}>
+            ({filteredData.length}) Available
+          </span>
+          <div className={styles.options}>
+            <div className={styles.filterCont}>
+              <Filter data={filteredData} setFilters={setFilters} />
+            </div>
+          </div>
+        </div>
+
         <div className={styles.items}>
-          {data?.map((val) => {
+          {filteredData.map((val) => {
             const {
               id,
               descriptionId,

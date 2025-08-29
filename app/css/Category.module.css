@@ -5,6 +5,12 @@
   padding: 20px;
 }
 
+.itemCount {
+  color: #555;
+  margin-bottom: 15px;
+  display: inline-block;
+}
+
 .items {
   display: flex;
   flex-wrap: wrap;
