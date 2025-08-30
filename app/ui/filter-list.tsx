@@ -1,62 +1,84 @@
 "use client";
 
-import React, { ChangeEvent } from "react";
-import { FilterListProps } from "../lib/definitions";
-import { capitalizeFirstLetter } from "../lib/utils";
+import React, { useState } from "react";
+import Range from "./range";
+import FilterItems from "./filter-items";
+import { ItemsProps, KeyNumberProps } from "../lib/definitions";
 import styles from "@/app/css/Filter.module.css";
 
-export default function FilterList({
-  data,
-  filter,
-  setFilters,
-}: FilterListProps) {
-  console.log("FilterList");
-  console.log(data);
-  console.log(filter);
-
-  const updateFilter = ({
-    target: { id, value },
-  }: ChangeEvent<HTMLInputElement>) => {
-    setFilters({ [id]: value });
-  };
-
-  return (
-    <details>
-      <summary>{capitalizeFirstLetter(filter)}</summary>
-      <ul className={styles.list}>
-        {Object.entries(data).map(([key, val]: [string, number]) => (
-          <li key={key}>
-            <input
-              type="radio"
-              id={filter}
-              name={filter}
-              value={key}
-              onChange={updateFilter}
-            />
-            <label htmlFor={filter}>
-              <span>{key}</span> <span>({val})</span>
-            </label>
-          </li>
-        ))}
-      </ul>
-    </details>
-  );
+interface FilterProps {
+  data: ItemsProps[];
+  filters: any;
+  setFilters: (filters: any) => void; // Define the type of filters if known
 }
 
-// const filterOpts = data.reduce(
-//   (acc, val) => {
-//     const { colour, price, sizes } = val;
+export default function FilterList({ data, filters, setFilters }: FilterProps) {
+  const [toggle, setToggle] = useState(false);
+  console.log(data);
 
-//     if (acc.colours.indexOf(colour) === -1) {
-//       acc.colours.push(colour);
-//       acc.coloursNumbers.push({ [colour]: 1 });
-//     }
+  // const filterOptions: { [key: string]: KeyNumberProps } = data.reduce(
+  const filterOptions = data.reduce(
+    (acc, { colour, price, stock }) => {
+      acc.colours[colour] = (acc.colours[colour] || 0) + 1;
 
-//     if (acc.colours.indexOf(colour) > -1) {
-//       acc.coloursNumbers[colour] += 1;
-//     }
-//     return acc;
-//   },
-//   { colours: [], coloursNumbers: [] }
-// );
-// console.log(filterOpts);
+      stock.forEach((val: KeyNumberProps) => {
+        const { size, amount } = val;
+        if (amount) {
+          acc.sizes[size] = (acc.sizes[size] || 0) + 1;
+        }
+      });
+
+      if (acc.prices.max < price) acc.prices.max = price;
+
+      return acc;
+    },
+    { colours: {}, sizes: {}, prices: { min: 0, max: 0 } }
+  );
+  console.log("filterOptions");
+  console.log(filterOptions);
+
+  const handleFilter = () => {
+    setToggle(!toggle);
+  };
+
+  const handleClick = () => setToggle(!toggle);
+
+  const handlePropagation = (e) => e.stopPropagation();
+
+  return toggle ? (
+    <div className={styles.filters}>
+      <div className={styles.filtersInner} onClick={handlePropagation}>
+        <div className={styles.head}>
+          <h2 className={styles.hdr}>Filter</h2>
+          <span className={styles.close} onClick={handleClick}>
+            &times;
+          </span>
+        </div>
+        <div className={styles.filterCont}>
+          <FilterItems
+            data={filterOptions.colours}
+            filter="colour"
+            filters={filters}
+            setFilters={setFilters}
+          />
+          <FilterItems
+            data={filterOptions.sizes}
+            filter="size"
+            filters={filters}
+            setFilters={setFilters}
+          />
+          {/* <FilterItems
+            data={filterOptions.sizes}
+            filter="size"
+            setFilters={setFilters}
+          /> */}
+          <Range priceData={filterOptions.prices} setFilters={setFilters} />
+        </div>
+      </div>
+    </div>
+  ) : (
+    <button className={styles.btn} onClick={handleFilter}>
+      Filter
+    </button>
+  );
+}

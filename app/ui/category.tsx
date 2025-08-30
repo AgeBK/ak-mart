@@ -1,6 +1,6 @@
 "use client";
 
-import React, { use, useState } from "react";
+import React, { use, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import {
@@ -9,6 +9,7 @@ import {
   KeyStringArrProps,
   SubLevelProps,
   KeyNumberProps,
+  ItemsProps,
 } from "../lib/definitions";
 import {
   capitalizeFirstLetter,
@@ -23,13 +24,21 @@ import styles from "@/app/css/Category.module.css";
 import Price from "./price";
 import Breadcrumb from "./breadcrumb";
 import Modal from "./Modal";
-import Filter from "./filter";
+import FilterList from "./filter-list";
+import Pills from "./pills";
 
 export default function Category({ promise, level, subLevel }: CategoryProps) {
   const [selectedImg, setSelectedImg] = useState<SelectedImgProps>({});
-  const [filters, setFilters] = useState({ colours: [], sizes: [], price: {} });
+  const [filters, setFilters] = useState<{
+    colour: string;
+    size: number;
+    price: KeyNumberProps;
+  }>({ colour: "", size: 0, price: {} });
   let data = use(promise);
-  let filteredData = [...data];
+  data = data.slice(0, 10);
+  const filteredRef = useRef<ItemsProps[]>([]);
+  const firstLoad = useRef<boolean>(true);
+
   const pathname = usePathname();
   console.log("Category");
   console.log(filters);
@@ -38,42 +47,63 @@ export default function Category({ promise, level, subLevel }: CategoryProps) {
   // TODO: low stock? carousel low items
 
   if (data) {
+    if (firstLoad.current) {
+      firstLoad.current = false;
+      filteredRef.current = data;
+    }
+
     let subLevelObj: SubLevelProps | undefined = {};
     if (subLevel) {
       subLevelObj = getSubLevels(data, subLevel, pathname);
     }
     console.log(filters);
-    // if (Object.entries(filters)) {
-    //   data = data.filter((val) => {
-    //     const { colours, sizes } = val;
-    //     console.log(colours, sizes);
-    //   });
-    // }
 
     Object.entries(filters).filter(([key, val]) => {
+      console.log("FILTER");
+      console.log(filters);
+
       console.log(key);
       console.log(val);
+
+      // applies any selected filters to data
+
       const length = Object.keys(val).length;
+      let filtered = filteredRef.current;
 
       if (key === "price" && length) {
         const { minValue, maxValue } = val;
-        filteredData = data.filter(({ price }) => {
-          return price >= minValue && price <= maxValue;
+        filteredRef.current = filtered.filter(({ price }) => {
+          if (typeof minValue === "number" && typeof maxValue === "number")
+            return price >= minValue && price <= maxValue;
         });
       }
-      if (key !== "price" && length) {
-        filteredData = data.filter((v) => {
-          if (key === "size") {
-            const isTrue = v.stock.some(
-              (s: KeyNumberProps) => s.size === Number(val) && s.amount > 0
-            );
-            return isTrue;
-          } else {
-            console.log(v);
-            return v[key] === val; // colour not size (stock)
-          }
+      // if (key !== "price" && length) {
+      if (key === "colour" && val) {
+        if (key === "colour") console.log("key", key);
+
+        filteredRef.current = filtered.filter((item) => {
+          console.log("***colour***");
+          return item[key] === val; // colour not size (stock)
+        });
+        console.log(filteredRef.current);
+      }
+
+      if (key === "size" && val) {
+        // if (key === "size" && val > 0) debugger;
+
+        filteredRef.current = filtered.filter((item) => {
+          if (key === "size") console.log("key", key);
+
+          console.log("***size***");
+          const isTrue = item.stock.some(
+            (s: KeyNumberProps) => s.size === Number(val) && s.amount > 0
+          );
+          return isTrue;
         });
       }
+      console.log(filteredRef.current);
+
+      // filteredRef.current = filtered;
     });
 
     console.log(data);
@@ -117,17 +147,23 @@ export default function Category({ promise, level, subLevel }: CategoryProps) {
         <Carousel data={subLevelObj} />
         <div className={styles.optionsCont}>
           <span className={styles.itemCount}>
-            ({filteredData.length}) Available
+            ({filteredRef.current.length}) Available
           </span>
           <div className={styles.options}>
             <div className={styles.filterCont}>
-              <Filter data={filteredData} setFilters={setFilters} />
+              <FilterList
+                data={filteredRef.current}
+                //  data={data}
+                filters={filters}
+                setFilters={setFilters}
+              />
+              {/* <Pills filters={filters} setFilters={setFilters} /> */}
             </div>
           </div>
         </div>
 
         <div className={styles.items}>
-          {filteredData.map((val) => {
+          {filteredRef.current.map((val) => {
             const {
               id,
               descriptionId,

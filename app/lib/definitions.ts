@@ -105,11 +105,12 @@ export type PurchaseItemProps = {
   stock: KeyNumberProps;
 };
 
-export type FilterListProps = {
+export type FilterItemsProps = {
   data: KeyNumberProps;
   filter: string;
+  filters: any;
   setFilters: ({}) => void;
-};  
+};
 
 // *****************************
 // *****************************
